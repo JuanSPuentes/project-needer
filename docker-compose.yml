@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./needer-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - static_files:/app/dist 
+      - ./needer-backend:/app
+    networks:
+      - network
+
+  frontend:
+    build:
+      context: ./needer-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - static_files:/app/dist 
+      - ./needer-frontend:/app
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  static_files:
