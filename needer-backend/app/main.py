@@ -11,8 +11,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="/app/dist/needer-fronted", html=True), name="static")
-
 @app.get("/api/hola")
 async def read_item():
     return 'Hola Mundo'

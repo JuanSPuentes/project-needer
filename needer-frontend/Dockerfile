@@ -1,18 +1,21 @@
-FROM node:18 AS build
+FROM node:18 AS builder
+
+RUN npm install -g @angular/cli@18.0.0
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
 
 RUN npm install
 
-RUN npm run build
+COPY . .
+
+RUN ng build --configuration=production
 
 FROM nginx:alpine
 
-COPY --from=build /app/dist/needer-fronted /usr/share/nginx/html
-COPY --from=build /app/dist/needer-fronted /app/dist/needer-fronted
+COPY --from=builder /app/dist/needer-fronted/browser /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 80 
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD nginx -g "daemon off;"

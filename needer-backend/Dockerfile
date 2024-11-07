@@ -1,6 +1,11 @@
-FROM python:3.12-slim
+FROM python:3.12-slim AS backend
 
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY app/requirements.txt .
 
